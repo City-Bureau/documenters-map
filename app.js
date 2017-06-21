@@ -63,7 +63,7 @@ function loadCommAreas(documenter_data, map) {
               "fill-color": {
                 property: 'documenters',
                 stops: [
-                    [0, '#ffffff'],
+                    [0, '#dedede'],
                     [1, '#EED322'],
                     [2, '#E6B71E'],
                     [3, '#DA9C20'],
