@@ -1,5 +1,5 @@
 var doc_counts = []; // use to determine range of values
-
+var CHICAGO_BOUNDS = [[-88.06772634970588, 41.633982748547226],[-87.39652483669637, 42.033534968014294]];
 function fillWindowWithMapElem() {
   var elem = document.getElementById('map');
   elem.style.height = window.innerHeight;
@@ -141,10 +141,9 @@ if (!mapboxgl.supported()) {
   var map = new mapboxgl.Map({
     container: 'map',
     style: 'mapbox://styles/mapbox/light-v9',
-    trackResize: true,
-    maxBounds: [[-88.06772634970588, 41.633982748547226],[-87.39652483669637, 42.033534968014294]]
+    trackResize: true
   });
-
+  map.fitBounds(CHICAGO_BOUNDS);
   map.on('load', function() {
     loadDocumenterData(map);
   })
