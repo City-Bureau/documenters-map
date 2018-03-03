@@ -7,6 +7,26 @@ function fillWindowWithMapElem() {
 }
 
 function loadDocumenterData(map) {
+  var oReq = new XMLHttpRequest();
+  oReq.addEventListener("load", function() {
+    var responseJSON = JSON.parse(this.responseText);
+    var data = responseJSON.records.map(function(rec) {
+      return {
+        commarea: rec.fields['area number'],
+        documenters: (rec.fields['Documenters Record']) ? rec.fields['Documenters Record'].length : null
+      }
+    });
+    loadCommAreas(data, map);
+  });
+  oReq.open("GET", "https://api.airtable.com/v0/app7m2QM3gs6kbVvm/Community%20Area%20Lookup?view=Grid%20view");
+  oReq.setRequestHeader("Authorization","Bearer key1gX2DKXxqdViEv"); // only use read-only keys here!!
+  oReq.addEventListener("error", function() { console.log('error', this)});
+  oReq.addEventListener("abort", function() { console.log('abort', this)});
+  oReq.send();
+
+
+}
+function tabletop_loadDocumenterData(map) {
   Tabletop.init( { key: 'https://docs.google.com/spreadsheets/d/1tsyas-U9W1S9DdfnvFDA-VXESasRA37vnY6fWp-NeGU/pubhtml?gid=912682141&single=true',
                     simpleSheet: true,
                     callback: function(data, tabletop) {
@@ -33,6 +53,12 @@ function merge_data(documenter_data, map_data) {
   return map_data;
 }
 
+/**
+ * Given documenter_data, an array of JS objects, show the map.
+ * Each object should have two properties
+ *  commarea - string of integer valued between 1 and 77
+ *  documenters - string of integer representing the count of documenters for the community area.
+*/
 function loadCommAreas(documenter_data, map) {
 
   var request = new XMLHttpRequest();
