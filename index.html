@@ -58,8 +58,8 @@
     alert('Your browser does not support Mapbox GL');
   } else {
     var ranges = {
-      total: [0, 50],
-      eligible: [0, 25],
+      total: [0, 10, 20, 30, 40, 50],
+      eligible: [0, 5, 10, 15, 20, 25],
     };
     var map = new mapboxgl.Map({
       container: 'map',
@@ -112,6 +112,10 @@
     var range = ranges[e.target.value];
     expression[3] = range[0];
     expression[5] = range[1];
+    expression[7] = range[2];
+    expression[9] = range[3];
+    expression[11] = range[4];
+    expression[13] = range[5];
     map.setPaintProperty('zips', 'fill-color', expression);
   });
   </script>
