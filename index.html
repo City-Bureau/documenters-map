@@ -33,17 +33,34 @@
     .mapboxgl-popup p {
       margin: 0;
       padding: 0;
+    }
 
+    #toggle {
+      position: absolute;
+      min-height: 24px;
+      top: 15px;
+      right: 15px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
   </style>
 </head>
 
 <body>
   <div id="map"></div>
+  <select id="toggle">
+    <option value="total">Enrolled</option>
+    <option value="eligible">Eligible</option>
+  </select>
   <script>
   if (!mapboxgl.supported()) {
     alert('Your browser does not support Mapbox GL');
   } else {
+    var ranges = {
+      total: [0, 50],
+      eligible: [0, 25],
+    };
     var map = new mapboxgl.Map({
       container: 'map',
       hash: true,
@@ -88,6 +105,15 @@
       });
     })
   }
+
+  document.getElementById('toggle').addEventListener('change', function(e) {
+    var expression = map.getPaintProperty('zips', 'fill-color');
+    expression[2][1][1] = e.target.value;
+    var range = ranges[e.target.value];
+    expression[3] = range[0];
+    expression[5] = range[1];
+    map.setPaintProperty('zips', 'fill-color', expression);
+  });
   </script>
 </body>
 
