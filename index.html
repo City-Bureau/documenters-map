@@ -117,6 +117,9 @@
     expression[11] = range[4];
     expression[13] = range[5];
     map.setPaintProperty('zips', 'fill-color', expression);
+    var opacityExpression = map.getPaintProperty('zips', 'fill-opacity');
+    opacityExpression[1][1][1] = e.target.value;
+    map.setPaintProperty('zips', 'fill-opacity', opacityExpression);
   });
   </script>
 </body>
